@@ -1,18 +1,22 @@
 package jpabook.jpashop.repository;
 
 import jpabook.jpashop.domain.Member;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository //comentscan으로 bean등록함
+@RequiredArgsConstructor
 public class MemberRepository {
 
-    @PersistenceContext //spring이 EntityManager를 만들어서 주입해준다.
-    private EntityManager em;
+    //@PersistenceContext //spring이 EntityManager를 만들어서 주입해준다.
+    private final EntityManager em;
 
+//    public MemberRepository(EntityManager em){
+//        this.em = em;
+//    }
     public void save(Member member){
         em.persist(member);
     }
