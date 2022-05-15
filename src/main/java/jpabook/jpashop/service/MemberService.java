@@ -60,4 +60,9 @@ public class MemberService {
         return memberRepository.findOne(memberId);
     }
 
+    @Transactional
+    public void update(Long id, String name) {
+        Member member = memberRepository.findOne(id); //id로 찾아온다.영속성컨택스트에 등록한다(영속상태)
+        member.setName(name);//변경감지에 의해 업데이트한다.
+    }
 }
