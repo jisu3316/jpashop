@@ -59,6 +59,10 @@ public class InitDb {
             Order order = Order.createOrder(member, delivery, orderItem1, orderItem2);
             em.persist(order);
         }
+
+        private Member createMember(String userA,String 서울,String s ,String s2){
+
+        }
     }
 }
 
