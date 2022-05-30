@@ -89,7 +89,7 @@ public class InitDb {
             Member member = new Member();
             member.setName(name);
             member.setAddress(new Address(city, street, zipcode));
-            return member;
+            return member; 
         }
     }
 }
