@@ -2,6 +2,7 @@ package jpabook.jpashop.repository;
 
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
+@Getter
 public class OrderRepository {
 
     private final EntityManager em;
@@ -28,9 +30,7 @@ public class OrderRepository {
 
     public List<Order> findAllByString(OrderSearch orderSearch) {
 
-
-        //language=JPAQL
-        String jpql = "select o From Order o join o.member m";
+        String jpql = "select o from Order o join o.member m";
         boolean isFirstCondition = true;
 
         //주문 상태 검색
@@ -56,14 +56,17 @@ public class OrderRepository {
         }
 
         TypedQuery<Order> query = em.createQuery(jpql, Order.class)
-                .setMaxResults(1000); //최대 1000건
+                .setMaxResults(1000);
+
         if (orderSearch.getOrderStatus() != null) {
             query = query.setParameter("status", orderSearch.getOrderStatus());
         }
         if (StringUtils.hasText(orderSearch.getMemberName())) {
             query = query.setParameter("name", orderSearch.getMemberName());
         }
+
         return query.getResultList();
+    }
 
 //        return em.createQuery(jpql, Order.class)
 //                .setMaxResults(1000)
@@ -76,7 +79,7 @@ public class OrderRepository {
                 .setMaxResults(1000) //최대 1000건건
                .getResultList();*/
 
-    }
+
 
     /**
      * JPA Criteria
@@ -106,5 +109,14 @@ public class OrderRepository {
         cq.where(cb.and(criteria.toArray(new Predicate[criteria.size()])));
         TypedQuery<Order> query = em.createQuery(cq).setMaxResults(1000); //최대 1000건
         return query.getResultList();
+    }
+
+    //패치 조인
+    public List<Order> findAllWithMemberDelivery() {
+        return em.createQuery(
+                "select o from  Order o" +
+                        " join fetch o.member m" +
+                        " join fetch o.delivery d",Order.class
+        ).getResultList();
     }
 }

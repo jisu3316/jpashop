@@ -26,7 +26,7 @@ public class Order {
      * @ManyToOne Order에서의 Member와의 관계 : 다대일 관계
      * Order는 여러개의 주문을 받을 수 있다.
      */
-    @ManyToOne(fetch = LAZY) //Order에서의 Member와의 관계 : 다대일 관계
+    @ManyToOne(fetch = LAZY) //Order에서의 Member와의 관계 : 다대일 관계 ,지연로딩
     @JoinColumn(name = "member_id") //mapping을 뭐로 할거냐느 뜻
     private Member member;
 
