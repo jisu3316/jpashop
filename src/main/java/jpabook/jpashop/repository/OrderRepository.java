@@ -1,8 +1,6 @@
 package jpabook.jpashop.repository;
 
 
-
-import jpabook.jpashop.api.OrderSimpleApiController;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
 import lombok.Getter;
@@ -121,14 +119,5 @@ public class OrderRepository {
                         " join fetch o.member m" +
                         " join fetch o.delivery d",Order.class
         ).getResultList();
-    }
-
-    public List<OrderSimpleQueryDto> findOrderDtos() { //엔티티나 벨류오브젝트만 반환된다 .
-        return em.createQuery(
-                "select new jpabook.jpashop.repository.OrderSimpleQueryDto(o.id, m.name, o.orderDate, o.status, d.address) " +
-                        " from Order o" +
-                        " join o.member m" +
-                        " join o.delivery d", OrderSimpleQueryDto.class)
-                .getResultList();
     }
 }
